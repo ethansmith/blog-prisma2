@@ -13,5 +13,6 @@
     "generate": "docker exec -it frontend npm run generate"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {}
 }

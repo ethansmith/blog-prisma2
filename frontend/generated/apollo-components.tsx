@@ -1,6 +1,7 @@
 import gql from 'graphql-tag';
-import * as ReactApollo from 'react-apollo';
+import * as ApolloReactCommon from '@apollo/react-common';
 import * as React from 'react';
+import * as ApolloReactComponents from '@apollo/react-components';
 export type Maybe<T> = T | null;
 export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 /** All built-in and custom scalars, mapped to their actual values */
@@ -63,6 +64,8 @@ export type PostCreateManyWithoutPostsInput = {
 
 export type PostCreateWithoutAuthorInput = {
   id?: Maybe<Scalars['ID']>,
+  createdAt?: Maybe<Scalars['DateTime']>,
+  updatedAt?: Maybe<Scalars['DateTime']>,
   published: Scalars['Boolean'],
   title: Scalars['String'],
   content?: Maybe<Scalars['String']>,
@@ -118,9 +121,15 @@ export type UserCreateInput = {
   name?: Maybe<Scalars['String']>,
   posts?: Maybe<PostCreateManyWithoutPostsInput>,
 };
-export type PostFragmentFragment = ({ __typename?: 'Post' } & Pick<Post, 'id' | 'published' | 'title' | 'content' | 'published'>);
+export type PostFragmentFragment = (
+  { __typename?: 'Post' }
+  & Pick<Post, 'id' | 'published' | 'title' | 'content'>
+);
 
-export type UserFragmentFragment = ({ __typename?: 'User' } & Pick<User, 'id' | 'name' | 'email'>);
+export type UserFragmentFragment = (
+  { __typename?: 'User' }
+  & Pick<User, 'id' | 'name' | 'email'>
+);
 
 export type CreateDraftMutationMutationVariables = {
   title: Scalars['String'],
@@ -129,21 +138,36 @@ export type CreateDraftMutationMutationVariables = {
 };
 
 
-export type CreateDraftMutationMutation = ({ __typename?: 'Mutation' } & { createDraft: ({ __typename?: 'Post' } & PostFragmentFragment) });
+export type CreateDraftMutationMutation = (
+  { __typename?: 'Mutation' }
+  & { createDraft: { __typename?: 'Post' }
+    & PostFragmentFragment
+   }
+);
 
 export type DeleteOnePostMutationVariables = {
   id: Scalars['ID']
 };
 
 
-export type DeleteOnePostMutation = ({ __typename?: 'Mutation' } & { deleteOnePost: Maybe<({ __typename?: 'Post' } & PostFragmentFragment)> });
+export type DeleteOnePostMutation = (
+  { __typename?: 'Mutation' }
+  & { deleteOnePost: Maybe<{ __typename?: 'Post' }
+    & PostFragmentFragment
+  > }
+);
 
 export type PublishMutationMutationVariables = {
   id: Scalars['ID']
 };
 
 
-export type PublishMutationMutation = ({ __typename?: 'Mutation' } & { publish: Maybe<({ __typename?: 'Post' } & PostFragmentFragment)> });
+export type PublishMutationMutation = (
+  { __typename?: 'Mutation' }
+  & { publish: Maybe<{ __typename?: 'Post' }
+    & PostFragmentFragment
+  > }
+);
 
 export type SignupUserMutationMutationVariables = {
   name: Scalars['String'],
@@ -151,26 +175,46 @@ export type SignupUserMutationMutationVariables = {
 };
 
 
-export type SignupUserMutationMutation = ({ __typename?: 'Mutation' } & { signupUser: ({ __typename?: 'User' } & UserFragmentFragment) });
+export type SignupUserMutationMutation = (
+  { __typename?: 'Mutation' }
+  & { signupUser: { __typename?: 'User' }
+    & UserFragmentFragment
+   }
+);
 
 export type FeedQueryQueryVariables = {
   published: Scalars['Boolean']
 };
 
 
-export type FeedQueryQuery = ({ __typename?: 'Query' } & { feed: Array<({ __typename?: 'Post' } & PostFragmentFragment)> });
+export type FeedQueryQuery = (
+  { __typename?: 'Query' }
+  & { feed: Array<{ __typename?: 'Post' }
+    & PostFragmentFragment
+  > }
+);
 
 export type PostQueryQueryVariables = {
   id: Scalars['ID']
 };
 
 
-export type PostQueryQuery = ({ __typename?: 'Query' } & { post: Maybe<({ __typename?: 'Post' } & PostFragmentFragment)> });
+export type PostQueryQuery = (
+  { __typename?: 'Query' }
+  & { post: Maybe<{ __typename?: 'Post' }
+    & PostFragmentFragment
+  > }
+);
 
 export type UsersQueryQueryVariables = {};
 
 
-export type UsersQueryQuery = ({ __typename?: 'Query' } & { users: Array<({ __typename?: 'User' } & UserFragmentFragment)> });
+export type UsersQueryQuery = (
+  { __typename?: 'Query' }
+  & { users: Array<{ __typename?: 'User' }
+    & UserFragmentFragment
+  > }
+);
 export const PostFragmentFragmentDoc = gql`
     fragment PostFragment on Post {
   id
@@ -194,13 +238,15 @@ export const CreateDraftMutationDocument = gql`
   }
 }
     ${PostFragmentFragmentDoc}`;
-export type CreateDraftMutationMutationFn = ReactApollo.MutationFn<CreateDraftMutationMutation, CreateDraftMutationMutationVariables>;
-export type CreateDraftMutationComponentProps = Omit<ReactApollo.MutationProps<CreateDraftMutationMutation, CreateDraftMutationMutationVariables>, 'mutation'>;
+export type CreateDraftMutationMutationFn = ApolloReactCommon.MutationFunction<CreateDraftMutationMutation, CreateDraftMutationMutationVariables>;
+export type CreateDraftMutationComponentProps = Omit<ApolloReactComponents.MutationComponentOptions<CreateDraftMutationMutation, CreateDraftMutationMutationVariables>, 'mutation'>;
 
     export const CreateDraftMutationComponent = (props: CreateDraftMutationComponentProps) => (
-      <ReactApollo.Mutation<CreateDraftMutationMutation, CreateDraftMutationMutationVariables> mutation={CreateDraftMutationDocument} {...props} />
+      <ApolloReactComponents.Mutation<CreateDraftMutationMutation, CreateDraftMutationMutationVariables> mutation={CreateDraftMutationDocument} {...props} />
     );
     
+export type CreateDraftMutationMutationResult = ApolloReactCommon.MutationResult<CreateDraftMutationMutation>;
+export type CreateDraftMutationMutationOptions = ApolloReactCommon.BaseMutationOptions<CreateDraftMutationMutation, CreateDraftMutationMutationVariables>;
 export const DeleteOnePostDocument = gql`
     mutation deleteOnePost($id: ID!) {
   deleteOnePost(where: {id: $id}) {
@@ -208,13 +254,15 @@ export const DeleteOnePostDocument = gql`
   }
 }
     ${PostFragmentFragmentDoc}`;
-export type DeleteOnePostMutationFn = ReactApollo.MutationFn<DeleteOnePostMutation, DeleteOnePostMutationVariables>;
-export type DeleteOnePostComponentProps = Omit<ReactApollo.MutationProps<DeleteOnePostMutation, DeleteOnePostMutationVariables>, 'mutation'>;
+export type DeleteOnePostMutationFn = ApolloReactCommon.MutationFunction<DeleteOnePostMutation, DeleteOnePostMutationVariables>;
+export type DeleteOnePostComponentProps = Omit<ApolloReactComponents.MutationComponentOptions<DeleteOnePostMutation, DeleteOnePostMutationVariables>, 'mutation'>;
 
     export const DeleteOnePostComponent = (props: DeleteOnePostComponentProps) => (
-      <ReactApollo.Mutation<DeleteOnePostMutation, DeleteOnePostMutationVariables> mutation={DeleteOnePostDocument} {...props} />
+      <ApolloReactComponents.Mutation<DeleteOnePostMutation, DeleteOnePostMutationVariables> mutation={DeleteOnePostDocument} {...props} />
     );
     
+export type DeleteOnePostMutationResult = ApolloReactCommon.MutationResult<DeleteOnePostMutation>;
+export type DeleteOnePostMutationOptions = ApolloReactCommon.BaseMutationOptions<DeleteOnePostMutation, DeleteOnePostMutationVariables>;
 export const PublishMutationDocument = gql`
     mutation publishMutation($id: ID!) {
   publish(id: $id) {
@@ -222,13 +270,15 @@ export const PublishMutationDocument = gql`
   }
 }
     ${PostFragmentFragmentDoc}`;
-export type PublishMutationMutationFn = ReactApollo.MutationFn<PublishMutationMutation, PublishMutationMutationVariables>;
-export type PublishMutationComponentProps = Omit<ReactApollo.MutationProps<PublishMutationMutation, PublishMutationMutationVariables>, 'mutation'>;
+export type PublishMutationMutationFn = ApolloReactCommon.MutationFunction<PublishMutationMutation, PublishMutationMutationVariables>;
+export type PublishMutationComponentProps = Omit<ApolloReactComponents.MutationComponentOptions<PublishMutationMutation, PublishMutationMutationVariables>, 'mutation'>;
 
     export const PublishMutationComponent = (props: PublishMutationComponentProps) => (
-      <ReactApollo.Mutation<PublishMutationMutation, PublishMutationMutationVariables> mutation={PublishMutationDocument} {...props} />
+      <ApolloReactComponents.Mutation<PublishMutationMutation, PublishMutationMutationVariables> mutation={PublishMutationDocument} {...props} />
     );
     
+export type PublishMutationMutationResult = ApolloReactCommon.MutationResult<PublishMutationMutation>;
+export type PublishMutationMutationOptions = ApolloReactCommon.BaseMutationOptions<PublishMutationMutation, PublishMutationMutationVariables>;
 export const SignupUserMutationDocument = gql`
     mutation signupUserMutation($name: String!, $email: String!) {
   signupUser(data: {name: $name, email: $email}) {
@@ -236,13 +286,15 @@ export const SignupUserMutationDocument = gql`
   }
 }
     ${UserFragmentFragmentDoc}`;
-export type SignupUserMutationMutationFn = ReactApollo.MutationFn<SignupUserMutationMutation, SignupUserMutationMutationVariables>;
-export type SignupUserMutationComponentProps = Omit<ReactApollo.MutationProps<SignupUserMutationMutation, SignupUserMutationMutationVariables>, 'mutation'>;
+export type SignupUserMutationMutationFn = ApolloReactCommon.MutationFunction<SignupUserMutationMutation, SignupUserMutationMutationVariables>;
+export type SignupUserMutationComponentProps = Omit<ApolloReactComponents.MutationComponentOptions<SignupUserMutationMutation, SignupUserMutationMutationVariables>, 'mutation'>;
 
     export const SignupUserMutationComponent = (props: SignupUserMutationComponentProps) => (
-      <ReactApollo.Mutation<SignupUserMutationMutation, SignupUserMutationMutationVariables> mutation={SignupUserMutationDocument} {...props} />
+      <ApolloReactComponents.Mutation<SignupUserMutationMutation, SignupUserMutationMutationVariables> mutation={SignupUserMutationDocument} {...props} />
     );
     
+export type SignupUserMutationMutationResult = ApolloReactCommon.MutationResult<SignupUserMutationMutation>;
+export type SignupUserMutationMutationOptions = ApolloReactCommon.BaseMutationOptions<SignupUserMutationMutation, SignupUserMutationMutationVariables>;
 export const FeedQueryDocument = gql`
     query feedQuery($published: Boolean!) {
   feed(published: $published) {
@@ -250,12 +302,13 @@ export const FeedQueryDocument = gql`
   }
 }
     ${PostFragmentFragmentDoc}`;
-export type FeedQueryComponentProps = Omit<ReactApollo.QueryProps<FeedQueryQuery, FeedQueryQueryVariables>, 'query'> & ({ variables: FeedQueryQueryVariables; skip?: false; } | { skip: true; });
+export type FeedQueryComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<FeedQueryQuery, FeedQueryQueryVariables>, 'query'> & ({ variables: FeedQueryQueryVariables; skip?: boolean; } | { skip: boolean; });
 
     export const FeedQueryComponent = (props: FeedQueryComponentProps) => (
-      <ReactApollo.Query<FeedQueryQuery, FeedQueryQueryVariables> query={FeedQueryDocument} {...props} />
+      <ApolloReactComponents.Query<FeedQueryQuery, FeedQueryQueryVariables> query={FeedQueryDocument} {...props} />
     );
     
+export type FeedQueryQueryResult = ApolloReactCommon.QueryResult<FeedQueryQuery, FeedQueryQueryVariables>;
 export const PostQueryDocument = gql`
     query postQuery($id: ID!) {
   post(where: {id: $id}) {
@@ -263,12 +316,13 @@ export const PostQueryDocument = gql`
   }
 }
     ${PostFragmentFragmentDoc}`;
-export type PostQueryComponentProps = Omit<ReactApollo.QueryProps<PostQueryQuery, PostQueryQueryVariables>, 'query'> & ({ variables: PostQueryQueryVariables; skip?: false; } | { skip: true; });
+export type PostQueryComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<PostQueryQuery, PostQueryQueryVariables>, 'query'> & ({ variables: PostQueryQueryVariables; skip?: boolean; } | { skip: boolean; });
 
     export const PostQueryComponent = (props: PostQueryComponentProps) => (
-      <ReactApollo.Query<PostQueryQuery, PostQueryQueryVariables> query={PostQueryDocument} {...props} />
+      <ApolloReactComponents.Query<PostQueryQuery, PostQueryQueryVariables> query={PostQueryDocument} {...props} />
     );
     
+export type PostQueryQueryResult = ApolloReactCommon.QueryResult<PostQueryQuery, PostQueryQueryVariables>;
 export const UsersQueryDocument = gql`
     query usersQuery {
   users {
@@ -276,9 +330,10 @@ export const UsersQueryDocument = gql`
   }
 }
     ${UserFragmentFragmentDoc}`;
-export type UsersQueryComponentProps = Omit<ReactApollo.QueryProps<UsersQueryQuery, UsersQueryQueryVariables>, 'query'>;
+export type UsersQueryComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<UsersQueryQuery, UsersQueryQueryVariables>, 'query'>;
 
     export const UsersQueryComponent = (props: UsersQueryComponentProps) => (
-      <ReactApollo.Query<UsersQueryQuery, UsersQueryQueryVariables> query={UsersQueryDocument} {...props} />
+      <ApolloReactComponents.Query<UsersQueryQuery, UsersQueryQueryVariables> query={UsersQueryDocument} {...props} />
     );
     
+export type UsersQueryQueryResult = ApolloReactCommon.QueryResult<UsersQueryQuery, UsersQueryQueryVariables>;
